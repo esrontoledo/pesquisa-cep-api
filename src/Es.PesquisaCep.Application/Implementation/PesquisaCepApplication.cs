@@ -27,15 +27,7 @@ namespace Es.PesquisaCep.Application.Implementation
             if (string.IsNullOrWhiteSpace(cep)) return GetResultErros("Cep", "Necessário informar o cep");
             if (!cep.All(char.IsDigit)) return GetResultErros("Cep", "Cep deve conter apenas números");
 
-            var cepResult = _mapper.Map<CepModel>(await _cepRepository.GetCepAsync(cep));
-
-            if (cepResult != null)
-            {
-                return Result<CepModel>.Ok(cepResult);
-            }
-
-            return GetResultErros("Erro", "Cep não encontrado");
-
+            return Result<CepModel>.Ok(_mapper.Map<CepModel>(await _cepRepository.GetCepAsync(cep)));
         }
 
         private Result<CepModel> GetResultErros(string erro, string message) => Result<CepModel>.Error(new Notification(erro, message));

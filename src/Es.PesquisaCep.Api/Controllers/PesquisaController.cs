@@ -22,6 +22,8 @@ namespace Es.PesquisaCep.Api.Controllers
 
             if (cepResult.Success)
             {
+                if (string.IsNullOrWhiteSpace(cepResult.Object?.Cep)) return NoContent();
+
                 return Ok(cepResult.Object);
             }
 
